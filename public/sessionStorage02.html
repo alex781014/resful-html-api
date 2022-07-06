@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button onclick="showData()">show data</button>
+    <br>
+    <div id="info"></div>
+
+    <script>
+        function showData() {
+            for (let i = 0; i < sessionStorage.length; i++) {
+                const k = sessionStorage.key(i);
+                const v = sessionStorage.getItem(k);
+                info.innerHTML += `<div>${k}:${v}</div>`
+                // 從sessionStorage取得之前存的資料
+                var data = sessionStorage.getItem('key');
+            }
+        }
+    </script>
+</body>
+
+</html>

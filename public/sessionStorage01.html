@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button onclick="saveData()">save data</button>
+    <br>
+    <a href="./sessionStorage02.html">sessionStorage02</a>
+    <script>
+        function saveData() {
+            const k = 'mykey-' + Date.now();
+            const v = Math.random();
+            sessionStorage.setItem(k, v); // key:value;
+        }
+    </script>
+</body>
+
+</html>

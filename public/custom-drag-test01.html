@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .rect {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            background-color: rgb(194, 226, 248);
+            border: 1px solid gray;
+        }
+
+        .ball {
+            position: absolute;
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: rgb(246, 156, 45);
+            border: 1px solid gray;
+            text-align: center;
+            line-height: 60px;
+            cursor: pointer;
+        }
+
+        .rect2 {
+            position: absolute;
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            background-color: rgb(246, 156, 45);
+            border: 1px solid gray;
+            text-align: center;
+            line-height: 60px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 客製化移動 -->
+    <div class="rect">
+        <div class="draggable ball" style="left:100px;top: 100px;">1</div>
+        <div class="draggable ball" style="left:200px;top: 100px;">2</div>
+        <div class="draggable ball" style="left:300px;top: 100px;">3</div>
+
+        <div class="draggable rect2" style="left:100px;top: 250px;">4</div>
+        <div class="draggable rect2" style="left:200px;top: 250px;">5</div>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        let myDragTarget = null;
+        const draggables = $('.draggable')
+
+        const mDown = event => {
+            const t = $(event.currentTarget);
+            myDragTarget = {
+                t,
+                orix: t.position().left,
+                oriy: t.position().top,
+                px: event.pageX,
+                py: event.pageY,
+            }
+            $(window).on("mousemove", mMove);
+        };
+        const mUp = event => {
+            myDragTarget = null
+            $(window).off("mousemove")
+        };
+        const mMove = event => {
+            if (myDragTarget) {
+                myDragTarget.t.css({
+                    // orix 原本的位置 event.pageX(滑鼠點到的位置)
+                    // 先記得原本位置 記得inline要加
+                    left: myDragTarget.orix + (event.pageX - myDragTarget.px),
+                    top: myDragTarget.oriy + (event.pageY - myDragTarget.py),
+
+                });
+            }
+        };
+
+        draggables.on('mousedown', mDown);
+        $(window).on("mouseup", mUp);
+    </script>
+</body>
+
+</html>

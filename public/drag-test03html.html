@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .rect {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            background-color: rgb(194, 226, 248);
+            border: 1px solid gray;
+        }
+
+        .ball {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: rgb(246, 156, 45);
+            border: 1px solid gray;
+            text-align: center;
+            line-height: 60px;
+        }
+
+        .rect2 {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            background-color: rgb(210, 248, 154);
+            border: 1px solid gray;
+            left: 400px;
+            top: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- § dragstart: 開始拖拉
+    § drag: 正在拖拉（類似 mousemove）
+    § dragend: 結束拖拉
+    § dragenter: 有拖拉物進入時
+    § dragover: 有拖拉物在範圍內移動時
+    § dragleave: 有拖拉物離開時
+    § drop: 拖拉物在範圍內放開時
+    § dragover 的處理器內要呼叫 preventDefault()，才能觸發 drop 事件。
+    § <a> 和 <img> 原本就有預設拖拉的功能。 -->
+    <div class="rect">
+        <div class="ball">1</div>
+        <div class="ball">2</div>
+        <div class="ball">3</div>
+
+        <div class="rect2"></div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        let myDragTarget = null;
+
+        const balls = $('.ball');
+        const rect2 = $('.rect2');
+        balls.attr('draggable', true);
+
+        const myDragStart = event => {
+            myDragTarget = $(event.currentTarget);
+        };
+        const myDragEnd = event => {
+            myDragTarget = null;
+        };
+
+        balls.on('dragstart', myDragStart);
+        balls.on('dragend', myDragEnd);
+
+        // rect2.on('dragenter', handler);
+        rect2.on('dragover', event => {
+            event.preventDefault();
+
+        });
+        // rect2.on('dragleave', handler);
+        rect2.on('drop', event => {
+            if (myDragTarget) {
+                const c = myDragTarget.clone();
+                // const c = myDragTarget.clone(true);
+                c.removeAttr('draggable');
+                // c.removeAttr('draggable');
+                // 換成註解起來的可以框框內複製
+                rect2.append(c)
+            }
+        });
+
+    </script>
+</body>
+
+</html>
