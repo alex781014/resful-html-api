@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="info">no data</div>
+    <script>
+        const info = document.querySelector('#info');
+        const es = new EventSource('/try-sse');  //單方向接受訊息
+
+        es.addEventListener('open', event => {  //open 是建立連線的時候
+            info.style.backgroundColor = 'orange';
+            console.log('open:', event)
+        })
+        es.addEventListener('message', event => {
+            info.innerHTML = `
+            id:${event.lastEventId}<br>
+            data:${event.data}
+            `
+        })
+        es.addEventListener('error', event => {
+            console.log({ event })
+        })
+        // event: myevent\n
+        //     id: 20\n
+        //     retry: 5000\n
+        //     data: 傳送的資料\n\n
+
+    </script>
+</body>
+
+</html>

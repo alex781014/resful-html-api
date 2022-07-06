@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="connectBtn">連線</button>
+    <button id="disconnectBtn">斷線</button>
+    <br>
+    <input type="text" id="inp">
+    <button id="sendBtn">送出</button>
+    <textarea id="info" cols="30" rows="10"></textarea>
+
+    <script>
+        let socket;
+
+        const myOpen = event => {
+            console.log({ open: event });
+        }
+        const myMessage = event => {
+            // console.log({ message: event });
+            document.querySelector('#info').value += event.data + '\n'
+        }
+        const myClose = event => {
+            console.log({ close: event });
+        }
+
+        document.addEventListener('click', event => {
+            switch (event.target.id) {
+                case 'connectBtn':
+                    if (!socket || (socket && socket.readState !== WebSocket.OPEN)) {
+                        socket = new WebSocket('ws://localhost:3700');
+                        socket.addEventListener('open', myOpen)
+                        socket.addEventListener('message', myMessage)
+                        socket.addEventListener('close', myClose)
+                    }
+                    break;
+                case 'disconnectBtn':
+                    if (socket && socket.readyState === WebSocket.OPEN) {
+                        socket.close();
+                    }
+                    break;
+                case 'sendBtn':
+                    if (socket && socket.readyState === WebSocket.OPEN) {
+                        socket.send(document.querySelector('#inp').value);
+                    }
+                    break;
+            }
+        })
+
+
+    </script>
+</body>
+
+</html>

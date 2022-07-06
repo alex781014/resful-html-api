@@ -27,19 +27,19 @@ app.use(serveIndex('public', { 'icons': true }));
 // app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-app.get('/try-sse', (req, res) => {
+app.get('/try-sse', (req, res) => {   //9.SSE Server Sent Event  用get就好
   let id = 30;
   res.writeHead(200, {
-    'Content-Type': 'text/event-stream; charset=utf8',
+    'Content-Type': 'text/event-stream; charset=UTF-8',
     'Cache-Control': 'no-cache',
     'Connection': 'keep-alive'
   })
-  setInterval(function () {
+  setInterval(function () { //用setInterval 設定一秒傳資料到前端 內容是用res.write()只能用write!!
     const now = new Date();
     res.write(`id: ${id}\n`)//只能用res.write !write本身不會換行
     res.write(`data: ${now.toString()}\n\n`)//只能用res.write !write本身不會換行
     id++;
-  }, 1200)
+  }, 1000)
 })
 
 // catch 404 and forward to error handler
