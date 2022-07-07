@@ -1,19 +1,19 @@
-const getPrimeNumbers = (num=2e7)=>{
+const getPrimeNumbers = (num = 2e8) => {
 	const startTime = new Date().getTime();
 	const pn = [2]; // 存放質數的陣列
 	let i, m, n, isPrime;
 
-	for(n=3; n<=num; n++){
+	for (n = 3; n <= num; n++) {
 		isPrime = true; // 假設 n 為質數
 		m = Math.floor(Math.sqrt(n)); // n 的平方根
-		for(i=0; i<pn.length; i++){
-			if(pn[i] > m) break; // 判斷到 n 的平方根 m
-			if(n%pn[i]===0){
+		for (i = 0; i < pn.length; i++) {
+			if (pn[i] > m) break; // 判斷到 n 的平方根 m
+			if (n % pn[i] === 0) {
 				isPrime = false;
 				break;
 			}
 		}
-		if(isPrime){
+		if (isPrime) {
 			pn.push(n);
 		}
 	}
@@ -25,8 +25,8 @@ const getPrimeNumbers = (num=2e7)=>{
 };
 
 // this, self: DedicatedWorkerGlobalScope
-self.onmessage = event=>{
-	if(event.data==='start'){
+self.onmessage = event => {   //主執行緒丟東西過來時候執行
+	if (event.data === 'start') {
 		postMessage(getPrimeNumbers());
 	}
 };
